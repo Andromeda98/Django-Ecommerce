@@ -46,9 +46,11 @@
                    
 
                                         
-                    <button type="button" class="btn btn-secondary add-cart" data-id="{{ product.id }}">
-                                            Add To Cart
-                    </button>
+                                    
+                <button type="button" value="{{ product.id }}" class="btn btn-secondary" id="add-cart">
+                    Add To Cart
+                </button>
+
 
                 </div>
             </div>
@@ -74,6 +76,7 @@ $(document).on('click', '#add-cart', function(e){
         },
         success: function(json){
             document.getElementById("cart_quantity").textContent = json.qty;
+            location.reload();
         },
         error: function(xhr, errmsg, err){
             console.error("Error al añadir al carrito:", errmsg);
