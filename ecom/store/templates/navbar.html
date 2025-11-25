@@ -14,14 +14,30 @@
                         <a class="nav-link active" aria-current="page" href="{% url 'home'%}">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'search'%}">Search</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'about'%}">About</a>
                     </li>
 
 
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'update_user' %}">Profile</a>
+              
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'update_user' %}">User Profile</a>
+                            </li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'update_info' %}">User Info</a>
+                            </li>
+                        </ul>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                     </li>
@@ -35,18 +51,22 @@
                 {% endif %}
 
 
+                    
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            Shop
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">All Products</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category_summary' %}">All Products</a></li>
                             <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Filosofia' %}">Filosofia</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Narrativa' %}">Narrativa</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Poesía' %}">Poesia</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Teatro' %}">Teatro</a></li>
+
                         </ul>
                     </li>
+
                 </ul>
 
                 <form class="d-flex">

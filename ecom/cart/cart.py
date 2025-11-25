@@ -1,10 +1,12 @@
 from django.shortcuts import get_object_or_404
-from store.models import Product
+from store.models import Product, Profile
 
 
 class Cart():
     def __init__(self, request):
         self.session = request.session
+
+        self.request = request
 
         # Get the current session key if it exists
         cart = self.session.get('session_key')
@@ -17,20 +19,63 @@ class Cart():
         self.cart = cart
 
 
-   
-    def add(self, product, quantity):  
-        product_id = str(product.id)
-
+        
+    def db_add(self, product, quantity):
+        product_id = str(product)
         product_qty = str(quantity)
-        # Logic
+
+        # Lógica para añadir al carrito
         if product_id in self.cart:
             pass
         else:
-            #self.cart[product_id] = {'price': str(product.price)}
+            # Guardar cantidad en el carrito
             self.cart[product_id] = int(product_qty)
 
-
+        # Marcar la sesión como modificada
         self.session.modified = True
+
+        # Si el usuario está autenticado, guardar el carrito en su perfil
+        if self.request.user.is_authenticated:
+            # Obtener el perfil del usuario actual
+            current_user = Profile.objects.filter(user_id=self.request.user.id)
+
+            # Convertir el carrito a string y reemplazar comillas simples por dobles
+            carty = str(self.cart)  # Ejemplo: {'3': 1, '2': 4}
+            carty = carty.replace("'", '"')  # Convertir a {"3": 1, "2": 4}
+
+            # Guardar el carrito en el campo old_cart del perfil
+            current_user.update(old_cart=str(carty))
+
+    
+    def add(self, product, quantity):
+        product_id = str(product.id)
+        product_qty = str(quantity)
+
+        # Lógica para añadir al carrito
+        if product_id in self.cart:
+            pass
+        else:
+            # Guardar cantidad en el carrito
+            self.cart[product_id] = int(product_qty)
+
+        # Marcar la sesión como modificada
+        self.session.modified = True
+
+        # Si el usuario está autenticado, actualizar su perfil
+        
+        # Deal with logged in user
+        if self.request.user.is_authenticated:
+            # Get the current user profile
+            current_user = Profile.objects.filter(user_id=self.request.user.id)
+
+            # Convert cart dictionary to string
+            carty = str(self.cart)  # Example: {'3': 1, '2': 4}
+            carty = carty.replace("'", '"')  # Convert to {"3": 1, "2": 4}
+
+            # Save carty to the Profile model
+            current_user.update(old_cart=str(carty))
+
+
 
     
     
@@ -95,6 +140,19 @@ class Cart():
         # Marcar la sesión como modificada
         self.session.modified = True
 
+
+        if self.request.user.is_authenticated:
+            # Obtener el perfil del usuario actual
+            current_user = Profile.objects.filter(user_id=self.request.user.id)
+
+            # Convertir el carrito a string y reemplazar comillas simples por dobles
+            carty = str(self.cart)  # Ejemplo: {'3': 1, '2': 4}
+            carty = carty.replace("'", '"')  # Convertir a {"3": 1, "2": 4}
+
+            # Guardar el carrito en el campo old_cart del perfil
+            current_user.update(old_cart=str(carty))
+
+
         # Devolver el carrito actualizado
         return self.cart
     
@@ -109,4 +167,16 @@ class Cart():
 
         # Marcar la sesión como modificada
         self.session.modified = True
+
+        if self.request.user.is_authenticated:
+            # Obtener el perfil del usuario actual
+            current_user = Profile.objects.filter(user_id=self.request.user.id)
+
+            # Convertir el carrito a string y reemplazar comillas simples por dobles
+            carty = str(self.cart)  # Ejemplo: {'3': 1, '2': 4}
+            carty = carty.replace("'", '"')  # Convertir a {"3": 1, "2": 4}
+
+            # Guardar el carrito en el campo old_cart del perfil
+            current_user.update(old_cart=str(carty))
+
 
