@@ -204,6 +204,35 @@ footer.bg-dark a:hover { color: #0dcaf0; text-decoration: none; }
   font-weight: 700;
 }
 
+/* Navbar custom theme (applies to navbar-custom in navbar.html) */
+.navbar-custom {
+  background: linear-gradient(90deg, rgba(8, 29, 50, 0.95), rgba(12, 78, 162, 0.95));
+  color: #ffffff;
+}
+
+.navbar-custom .navbar-brand { color: #fff; display:flex; align-items:center; gap:.6rem; }
+.navbar-custom .brand-circle{ display:inline-flex; width:36px; height:36px; border-radius:50%; align-items:center; justify-content:center; background:linear-gradient(180deg,#ffd166,#ff6b6b); color:#082033; font-weight:700; }
+.navbar-custom .brand-text{ font-weight:700; font-size:1.05rem; }
+
+.navbar-custom .nav-link { color: rgba(255,255,255,0.9); margin-right:.25rem; padding:.4rem .6rem; }
+.navbar-custom .nav-link:hover { color: #fff; background: rgba(255,255,255,0.04); border-radius:.35rem; }
+.navbar-custom .nav-link.active { color:#ffe99b; }
+
+.navbar-custom .dropdown-menu { background: rgba(10,25,40,0.95); border: 1px solid rgba(255,255,255,0.04); }
+.navbar-custom .dropdown-item { color: rgba(255,255,255,0.9); }
+.navbar-custom .dropdown-item:hover { background: rgba(255,255,255,0.03); }
+
+.btn-cart { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.12); }
+.btn-cart:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.18); }
+.btn-cart i { font-size: 1.05rem; }
+.cart-badge { background: #ff6b6b; color: #fff; padding: .25rem .5rem; border-radius: 999px; font-weight:700; font-size:.9rem; }
+
+/* Minor responsive tweaks for the brand */
+@media (max-width: 576px) {
+  .brand-text { font-size: .95rem; }
+  .brand-circle { width:30px; height:30px; }
+}
+
 
 
 
