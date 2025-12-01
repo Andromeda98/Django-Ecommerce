@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-            <span class="brand-circle">R</span>
-            <span class="brand-text">Tienda Rodrigo</span>
+            <span class="badge bg-light text-dark me-2" aria-hidden="true">R</span>
+            Tienda Rodrigo
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -88,10 +88,10 @@
 
             <!-- Right side: cart button -->
             <div class="d-flex align-items-center">
-                <a href="{% url 'cart_summary' %}" class="btn btn-cart d-flex align-items-center">
+                <a href="{% url 'cart_summary' %}" class="btn btn-outline-light d-flex align-items-center">
                     <i class="bi-cart-fill me-2"></i>
                     <span class="cart-label">Cart</span>
-                    <span class="badge cart-badge ms-2" id="cart_quantity">{{ cart|length }}</span>
+                    <span class="badge bg-light text-dark ms-2" id="cart_quantity">{{ cart|length }}</span>
                 </a>
             </div>
         </div>
