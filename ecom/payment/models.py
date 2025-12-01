@@ -36,7 +36,10 @@ post_save.connect(create_shipping, sender=User)
 
 
 
+
+# Create Order Model
 class Order(models.Model):
+    # Foreign Key
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     full_name = models.CharField(max_length=250)
     email = models.EmailField(max_length=250)
@@ -44,9 +47,11 @@ class Order(models.Model):
     amount_paid = models.DecimalField(max_digits=7, decimal_places=2)
     date_ordered = models.DateTimeField(auto_now_add=True)
     shipped = models.BooleanField(default=False)
+    date_shipped = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return f'Order - {str(self.id)}'
+
     
 
 

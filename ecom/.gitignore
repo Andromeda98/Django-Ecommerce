@@ -1,0 +1,42 @@
+### Python ###
+*.py[cod]
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+### Virtualenv / environments ###
+virt/
+venv/
+ENV/
+env/
+/.venv/
+
+### Django / project files that should not be public ###
+db.sqlite3
+/media/
+/uploads/
+*.log
+.env
+.venv
+
+### Editor / OS files ###
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+### Node / frontend ###
+node_modules/
+npm-debug.log
+yarn-error.log
+
+### Tests / coverage ###
+.pytest_cache/
+coverage.xml
+htmlcov/
+
+### Git LFS placeholder (if you use large media) ###
+# Use: git lfs install && git lfs track "media/uploads/**"
