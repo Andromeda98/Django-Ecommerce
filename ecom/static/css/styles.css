@@ -113,13 +113,13 @@ body {
 
 /* Apply a consistent hero for header elements commonly used across templates */
 header.bg-dark.py-5 {
-  /* modern Bootstrap-like hero using the project's dark variant but with
-     a subtle gradient and brighter accents */
-  background: linear-gradient(180deg, #0b3b54 0%, #0f5673 55%, #1b4b5f 100%);
+  /* Bootstrap-inspired hero palette: smooth primary -> cyan -> teal gradient */
+  background: linear-gradient(180deg, #0d6efd 0%, #0dcaf0 55%, #20c997 100%);
   color: #ffffff;
   padding-top: 5.5rem;
   padding-bottom: 5.5rem;
   position: relative;
+  transition: background 300ms ease-in-out, color 200ms ease;
 }
 
 /* Container content should stay above any decorations */
@@ -138,7 +138,7 @@ header.bg-dark.py-5 .display-4 {
 }
 
 header.bg-dark.py-5 .lead {
-  color: rgba(255,255,255,0.86);
+  color: rgba(255,255,255,0.92);
   font-size: 1.05rem;
   font-family: 'Poppins', var(--bs-font-sans-serif);
   margin-top: 0.25rem;
@@ -152,7 +152,7 @@ header.bg-dark.py-5 .display-4::after {
   height: 6px;
   margin-top: 12px;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(255,203,80,1) 0%, rgba(255,117,117,1) 100%);
+  background: linear-gradient(90deg,#ffd166 0%, #ff6b6b 50%, #ff6b6b 100%);
   box-shadow: 0 8px 26px rgba(18, 38, 63, 0.28);
 }
 
@@ -170,9 +170,9 @@ header.bg-dark.py-5 .display-4::after {
 /* Footer overrides to make it look modern and match site theme */
 footer.bg-dark {
   /* Footer styled to match header tone but darker and simpler */
-  background: linear-gradient(180deg, #08191f 0%, #05262f 100%);
+  background: linear-gradient(180deg,#041224 0%, #071a2a 100%);
   color: rgba(255,255,255,0.92);
-  border-top: 1px solid rgba(255,255,255,0.04);
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
 footer.bg-dark p, footer.bg-dark .m-0 {
@@ -181,6 +181,22 @@ footer.bg-dark p, footer.bg-dark .m-0 {
 
 /* Slight padding and spacing improvements */
 footer.bg-dark .container { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+
+/* Footer links and small text color adjustments */
+footer.bg-dark a { color: rgba(255,255,255,0.85); text-decoration: underline; }
+footer.bg-dark a:hover { color: #0dcaf0; text-decoration: none; }
+
+/* Header CTA/button tweaks inside hero if present */
+.site-hero-cta, header.bg-dark.py-5 .btn {
+  border-radius: 0.375rem;
+  padding: .55rem .9rem;
+  font-weight: 600;
+}
+
+/* Slightly bigger display heading for very large screens */
+@media (min-width: 1400px) {
+  header.bg-dark.py-5 .display-4 { font-size: calc(2.2rem + 2.5vw); }
+}
 
 /* Small global tweak: make header titles more prominent and use Poppins */
 .display-4, h1.display-4 {
