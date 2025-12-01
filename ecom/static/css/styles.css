@@ -104,6 +104,78 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+/* Custom site hero header overrides (applies to templates using: <header class="bg-dark py-5">) */
+header.bg-dark.py-5 {
+  /* replace solid dark with a soft gradient + background image overlay */
+  background: linear-gradient(135deg, rgba(8, 29, 50, 0.95) 0%, rgba(11, 48, 75, 0.95) 50%, rgba(34, 64, 93, 0.95) 100%);
+  color: #ffffff; /* ensure text stays white */
+  position: relative;
+  overflow: hidden;
+}
+
+header.bg-dark.py-5::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.00) 50%);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+header.bg-dark.py-5 .container {
+  position: relative; /* keep content above the ::before overlay */
+  z-index: 1;
+}
+
+header.bg-dark.py-5 .display-4 {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
+
+/* Decorative underline driven by pseudo-element so templates don't need changes */
+header.bg-dark.py-5 .display-4::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 6px;
+  margin-top: 12px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(255,203,80,1) 0%, rgba(255,117,117,1) 100%);
+  box-shadow: 0 6px 20px rgba(18, 38, 63, 0.25);
+}
+
+header.bg-dark.py-5 .lead {
+  color: rgba(255,255,255,0.85);
+  font-size: 1.05rem;
+  margin-top: 0.25rem;
+}
+
+/* Accent underline bar under header titles */
+header.bg-dark.py-5 .container .title-underline {
+  display: inline-block;
+  height: 4px;
+  width: 84px;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255,203,80,1) 0%, rgba(255,117,117,1) 100%);
+}
+
+/* Make the header slightly taller on large screens */
+@media (min-width: 992px) {
+  header.bg-dark.py-5 { padding-top: 7rem; padding-bottom: 7rem; }
+  header.bg-dark.py-5 .display-4 { font-size: calc(1.6rem + 2.0vw); }
+}
+
+/* Small tweak for mobile readability */
+@media (max-width: 576px) {
+  header.bg-dark.py-5 .display-4 { font-size: 1.5rem; }
+  header.bg-dark.py-5 .lead { font-size: 0.95rem; }
+}
+
+
 hr {
   margin: 1rem 0;
   color: inherit;
