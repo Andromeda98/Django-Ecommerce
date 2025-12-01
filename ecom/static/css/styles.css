@@ -112,9 +112,10 @@ body {
 */
 
 /* Apply a consistent hero for header elements commonly used across templates */
-header.bg-dark.py-5,
-header.site-hero {
-  background: linear-gradient(180deg, #0f3a52 0%, #184861 60%, #203f57 100%);
+header.bg-dark.py-5 {
+  /* modern Bootstrap-like hero using the project's dark variant but with
+     a subtle gradient and brighter accents */
+  background: linear-gradient(180deg, #0b3b54 0%, #0f5673 55%, #1b4b5f 100%);
   color: #ffffff;
   padding-top: 5.5rem;
   padding-bottom: 5.5rem;
@@ -122,31 +123,29 @@ header.site-hero {
 }
 
 /* Container content should stay above any decorations */
-header.bg-dark.py-5 .container,
-header.site-hero .container {
+header.bg-dark.py-5 .container {
   position: relative;
   z-index: 2;
 }
 
 /* Hero title and subtitle styling — same everywhere */
-header.bg-dark.py-5 .display-4,
-header.site-hero .display-4 {
+header.bg-dark.py-5 .display-4 {
   color: #ffffff;
   font-weight: 800;
+  font-family: 'Poppins', var(--bs-font-sans-serif);
   letter-spacing: -0.6px;
   text-shadow: 0 6px 24px rgba(0,0,0,0.45);
 }
 
-header.bg-dark.py-5 .lead,
-header.site-hero .lead {
+header.bg-dark.py-5 .lead {
   color: rgba(255,255,255,0.86);
   font-size: 1.05rem;
+  font-family: 'Poppins', var(--bs-font-sans-serif);
   margin-top: 0.25rem;
 }
 
 /* Small accent underline for titles (keeps templates unchanged) */
-header.bg-dark.py-5 .display-4::after,
-header.site-hero .display-4::after {
+header.bg-dark.py-5 .display-4::after {
   content: '';
   display: block;
   width: 84px;
@@ -159,20 +158,21 @@ header.site-hero .display-4::after {
 
 /* Responsive scaling for hero */
 @media (min-width: 992px) {
-  header.bg-dark.py-5, header.site-hero { padding-top: 7rem; padding-bottom: 7rem; }
-  header.bg-dark.py-5 .display-4, header.site-hero .display-4 { font-size: calc(1.6rem + 2vw); }
+  header.bg-dark.py-5 { padding-top: 7rem; padding-bottom: 7rem; }
+  header.bg-dark.py-5 .display-4 { font-size: calc(1.6rem + 2vw); }
 }
 
 @media (max-width: 576px) {
-  header.bg-dark.py-5 .display-4, header.site-hero .display-4 { font-size: 1.6rem; }
-  header.bg-dark.py-5 .lead, header.site-hero .lead { font-size: 0.95rem; }
+  header.bg-dark.py-5 .display-4 { font-size: 1.6rem; }
+  header.bg-dark.py-5 .lead { font-size: 0.95rem; }
 }
 
 /* Footer overrides to make it look modern and match site theme */
 footer.bg-dark {
-  background: linear-gradient(180deg, #111827 0%, #0b3240 100%);
-  color: rgba(255,255,255,0.9);
-  border-top: 1px solid rgba(255,255,255,0.03);
+  /* Footer styled to match header tone but darker and simpler */
+  background: linear-gradient(180deg, #08191f 0%, #05262f 100%);
+  color: rgba(255,255,255,0.92);
+  border-top: 1px solid rgba(255,255,255,0.04);
 }
 
 footer.bg-dark p, footer.bg-dark .m-0 {
@@ -180,7 +180,14 @@ footer.bg-dark p, footer.bg-dark .m-0 {
 }
 
 /* Slight padding and spacing improvements */
-footer.bg-dark .container { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+footer.bg-dark .container { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+
+/* Small global tweak: make header titles more prominent and use Poppins */
+.display-4, h1.display-4 {
+  font-family: 'Poppins', var(--bs-font-sans-serif);
+  font-weight: 700;
+}
+
 
 
 
