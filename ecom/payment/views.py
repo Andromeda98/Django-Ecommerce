@@ -11,6 +11,23 @@ import datetime
 
 
 def orders(request, pk):
+    """
+    Vista de detalle de un pedido específico (solo administradores).
+    
+    Permite a los administradores ver los detalles completos de un pedido
+    y actualizar su estado de envío.
+    
+    Args:
+        request (HttpRequest): Objeto de solicitud HTTP.
+        pk (int): ID del pedido a mostrar.
+    
+    Returns:
+        HttpResponse: Página con detalles del pedido y sus items.
+    
+    Notas:
+        - Requiere autenticación y permisos de superusuario.
+        - Permite marcar el pedido como enviado/no enviado.
+    """
     if request.user.is_authenticated and request.user.is_superuser:
         # Get the order
         order = Order.objects.get(id=pk)
@@ -42,6 +59,21 @@ def orders(request, pk):
         return redirect('home')
 
 def not_shipped_dash(request):
+    """
+    Dashboard de pedidos no enviados (solo administradores).
+    
+    Muestra todos los pedidos pendientes de envío y permite marcarlos como enviados.
+    
+    Args:
+        request (HttpRequest): Objeto de solicitud HTTP.
+    
+    Returns:
+        HttpResponse: Página con lista de pedidos no enviados.
+    
+    Notas:
+        - Requiere autenticación y permisos de superusuario.
+        - Al marcar como enviado, registra automáticamente la fecha actual.
+    """
     if request.user.is_authenticated and request.user.is_superuser:
         orders = Order.objects.filter(shipped=False)
         
@@ -66,6 +98,21 @@ def not_shipped_dash(request):
         return redirect('home')
 
 def shipped_dash(request):
+    """
+    Dashboard de pedidos enviados (solo administradores).
+    
+    Muestra todos los pedidos que ya han sido enviados y permite revertir su estado.
+    
+    Args:
+        request (HttpRequest): Objeto de solicitud HTTP.
+    
+    Returns:
+        HttpResponse: Página con lista de pedidos enviados.
+    
+    Notas:
+        - Requiere autenticación y permisos de superusuario.
+        - Permite cambiar el estado de enviado a no enviado si es necesario.
+    """
     if request.user.is_authenticated and request.user.is_superuser:
         orders = Order.objects.filter(shipped=True)
         
@@ -94,6 +141,29 @@ def shipped_dash(request):
 
 
 def process_order(request):
+    """
+    Vista para procesar y crear un pedido completo.
+    
+    Recibe la información de facturación, obtiene los datos de envío de la sesión,
+    crea el pedido (Order) y sus items (OrderItem) asociados. Funciona tanto para
+    usuarios autenticados como invitados.
+    
+    Args:
+        request (HttpRequest): Objeto de solicitud HTTP con datos del formulario de pago.
+    
+    Returns:
+        HttpResponse: Redirección a home después de crear el pedido exitosamente.
+    
+    Notas:
+        - Obtiene datos de envío desde request.session['my_shipping'].
+        - Para usuarios autenticados, guarda el user en Order y OrderItem.
+        - Limpia el carrito tanto de la sesión como del campo old_cart del Profile.
+        - Calcula el precio usando sale_price si is_sale es True, sino usa price normal.
+    
+    Ejemplos:
+        Crea Order con full_name, email, shipping_address, amount_paid.
+        Crea OrderItem por cada producto con order_id, product_id, quantity, price.
+    """
     if request.POST:
         # Get the cart
         cart = Cart(request)
@@ -212,6 +282,22 @@ def process_order(request):
         return redirect('home')
 
 def billing_info(request):
+    """
+    Vista de información de facturación.
+    
+    Recibe los datos de envío del formulario anterior, los guarda en la sesión
+    y muestra el formulario de pago (tarjeta de crédito, etc.).
+    
+    Args:
+        request (HttpRequest): Objeto de solicitud HTTP con datos de envío.
+    
+    Returns:
+        HttpResponse: Página con formulario de facturación y resumen del carrito.
+    
+    Notas:
+        - Guarda los datos de envío en request.session['my_shipping'].
+        - La sesión se usará posteriormente en process_order().
+    """
     if request.POST:
         # Get the cart
         cart = Cart(request)
@@ -288,6 +374,22 @@ def billing_info(request):
 #         })
 
 def checkout(request):
+    """
+    Vista del proceso de checkout (pago).
+    
+    Muestra el formulario de dirección de envío y el resumen del carrito.
+    Para usuarios autenticados, precarga su dirección guardada.
+    
+    Args:
+        request (HttpRequest): Objeto de solicitud HTTP.
+    
+    Returns:
+        HttpResponse: Página de checkout con formulario de envío y resumen del carrito.
+    
+    Notas:
+        - Usa get_or_create para evitar errores si el usuario no tiene ShippingAddress.
+        - Maneja el caso de múltiples direcciones (MultipleObjectsReturned) tomando la primera.
+    """
     # Get the cart
     cart = Cart(request)
     cart_products = cart.get_prods()
@@ -323,4 +425,13 @@ def checkout(request):
 
 
 def payment_success(request):
+    """
+    Vista de confirmación de pago exitoso.
+    
+    Args:
+        request (HttpRequest): Objeto de solicitud HTTP.
+    
+    Returns:
+        HttpResponse: Página de confirmación de pedido procesado exitosamente.
+    """
     return render(request, "payment/payment_success.html", {})
