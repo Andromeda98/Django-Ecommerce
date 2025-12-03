@@ -1,7 +1,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from store.models import Product
+from store.models import Book
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 import datetime
@@ -44,6 +44,7 @@ class Order(models.Model):
     amount_paid = models.DecimalField(max_digits=7, decimal_places=2)
     date_ordered = models.DateTimeField(auto_now_add=True)
     shipped = models.BooleanField(default=False)
+    date_shipped = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return f'Order - {str(self.id)}'
@@ -63,7 +64,7 @@ def set_shipped_date_on_update(sender, instance, **kwargs):
 class OrderItem(models.Model):
     # Foreign Keys
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     quantity = models.PositiveBigIntegerField(default=1)

@@ -2,41 +2,61 @@
 {% block content %}
 
 <!-- Header -->
-<header class="bg-dark py-5">
+<header class="bg-primary bg-gradient py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Actializar Usuario</h1>
-            <p class="lead fw-normal text-white-50 mb-0">
-                Actualiza tu perfil de usuario...
+            <h1 class="display-3 fw-bold mb-3">
+                <i class="bi bi-person-gear me-2"></i>Actualizar Perfil
+            </h1>
+            <p class="lead fw-normal mb-0">
+                Modifica tus datos de usuario
             </p>
         </div>
     </div>
 </header>
 
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-5">
+                        <h4 class="fw-bold mb-4">
+                            <i class="bi bi-person-circle me-2"></i>Información del Usuario
+                        </h4>
+                        
+                        <form method="POST" action="{% url 'update_user' %}">
+                            {% csrf_token %}
+                            
+                            <div class="mb-4">
+                                {{ user_form.as_p }}
+                            </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <br /><br />
-            <form method="POST" action="{% url 'update_user' %}">
-                {% csrf_token %}
-                {{ user_form.as_p }}
-                <br /><br />
-                <button type="submit" class="btn btn-secondary">
-                    Update Profile
-                </button>
-            </form>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-check-circle me-2"></i>Guardar Cambios
+                                </button>
+                            </div>
+                        </form>
 
-            
-            <br/><br/>
-            <a href="{% url 'update_password' %}" class="btn btn-success">Update Password</a>
+                        <hr class="my-4">
 
-            <br><br>
-            <br><br>
-            <br><br>
-            <br><br>
+                        <div class="d-grid">
+                            <a href="{% url 'update_password' %}" class="btn btn-outline-warning btn-lg">
+                                <i class="bi bi-shield-lock me-2"></i>Cambiar Contraseña
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-2"></i>Volver al Inicio
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
 {% endblock %}

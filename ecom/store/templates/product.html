@@ -2,63 +2,113 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="container">
-    <br>
+<!-- Header -->
+<header class="bg-primary bg-gradient py-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white text-decoration-none">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'category' product.category %}" class="text-white text-decoration-none">{{ product.category }}</a></li>
+                <li class="breadcrumb-item active text-white-50" aria-current="page">{{ product.name }}</li>
+            </ol>
+        </nav>
+    </div>
+</header>
 
-    <div class="card mb-3">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body text-center">
-                    <h5 class="card-title">{{ product.name }}</h5>
-                    <p class="card-text">{{ product.description }}</p>
-
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Imagen del Producto -->
+            <div class="col-lg-5 mb-4">
+                <div class="card border-0 shadow-lg">
                     {% if product.is_sale %}
-                        <!-- Product price -->
-                        <strike>
-                            ${{ product.price }}
-                        </strike>
-                        &nbsp;
-                        ${{ product.sale_price }}
-                    {% else %}
-                        ${{ product.price }}
-                        <br/>ID: {{ product.id }}
+                        <div class="badge bg-danger position-absolute m-3 px-3 py-2" style="top: 0; right: 0; font-size: 1rem;">
+                            <i class="bi bi-tag-fill me-1"></i>OFERTA
+                        </div>
                     {% endif %}
+                    <img src="{{ product.image.url }}" class="card-img-top p-4" alt="{{ product.name }}" style="object-fit: contain; height: 500px;">
+                </div>
+            </div>
 
-                  
-                    <br/><br/>
-                    <div class="row justify-content-center">
-                        <div class="col-md-2">Quantity:</div>
-                        <div class="col-md-2">
-                            <select class="form-select form-select-sm" id="qty-cart">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
+            <!-- Detalles del Producto -->
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-5">
+                        <!-- Categoría -->
+                        <p class="text-muted mb-2">
+                            <i class="bi bi-bookmark me-1"></i>{{ product.category }}
+                        </p>
+
+                        <!-- Título -->
+                        <h1 class="display-5 fw-bold mb-4">{{ product.name }}</h1>
+
+                        <!-- Precio -->
+                        <div class="mb-4">
+                            {% if product.is_sale %}
+                                <h3 class="text-danger mb-2">
+                                    <span class="text-decoration-line-through text-muted fs-5 me-2">${{ product.price }}</span>
+                                    <span class="fw-bold">${{ product.sale_price }}</span>
+                                </h3>
+                                <p class="text-success">
+                                    <i class="bi bi-percent me-1"></i>
+                                    ¡Ahorra ${{ product.price|add:"-"|add:product.sale_price }}!
+                                </p>
+                            {% else %}
+                                <h3 class="text-primary fw-bold">${{ product.price }}</h3>
+                            {% endif %}
+                        </div>
+
+                        <hr class="my-4">
+
+                        <!-- Descripción -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3">
+                                <i class="bi bi-info-circle me-2"></i>Descripción
+                            </h5>
+                            <p class="text-muted lh-lg" style="text-align: justify;">{{ product.description }}</p>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <!-- Cantidad y Agregar al Carrito -->
+                        <div class="row g-3 align-items-center mb-4">
+                            <div class="col-auto">
+                                <label for="qty-cart" class="col-form-label fw-bold">
+                                    <i class="bi bi-box me-1"></i>Cantidad:
+                                </label>
+                            </div>
+                            <div class="col-auto">
+                                <select class="form-select form-select-lg" id="qty-cart" style="width: 100px;">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-grid gap-2 d-md-flex">
+                            <button type="button" value="{{ product.id }}" class="btn btn-primary btn-lg px-5" id="add-cart">
+                                <i class="bi bi-cart-plus me-2"></i>Añadir al Carrito
+                            </button>
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg px-4">
+                                <i class="bi bi-arrow-left me-2"></i>Volver
+                            </a>
+                        </div>
+
+                        <!-- Stock Info -->
+                        <div class="alert alert-success mt-4" role="alert">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            <strong>En Stock</strong> - Envío inmediato
                         </div>
                     </div>
-                    <br/><br/>
-                    <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
-                   
-
-                                        
-                                    
-                <button type="button" value="{{ product.id }}" class="btn btn-secondary" id="add-cart">
-                    Add To Cart
-                </button>
-
-
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</section>
 
 <script>
 $(document).on('click', '#add-cart', function(e){

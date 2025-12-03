@@ -4,12 +4,12 @@
 {% block content %}
 
     <!-- Header -->
-    <header class="bg-dark py-5">
+    <header class="bg-primary bg-gradient py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Shop in style</h1>
-                <p class="lead fw-normal text-white-50 mb-0">
-                    With this shop homepage template
+                <h1 class="display-3 fw-bold mb-3">📚 Librería Online</h1>
+                <p class="lead fw-normal mb-0">
+                    Descubre tu próxima lectura favorita
                 </p>
             </div>
         </div>
@@ -22,7 +22,7 @@
 
                 {% for product in products %}
                     <div class="col mb-5">
-                        <div class="card h-100">
+                        <div class="card h-100 hover-card">
 
                             {% if product.is_sale %}
                                 <div class="badge bg-dark text-white position-absolute"
@@ -32,7 +32,7 @@
                             {% endif %}
 
                             <!-- Product image -->
-                            <img class="card-img-top" src="{{ product.img.url }}" alt="{{ product.name }}" />
+                            <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}" />
 
                             <!-- Details -->
                             <div class="card-body p-4">

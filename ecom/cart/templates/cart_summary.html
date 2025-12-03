@@ -2,27 +2,28 @@
 {% block content %}
 
 <!-- Header -->
-<header class="bg-dark py-5">
+<header class="bg-info bg-gradient py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Shopping Cart</h1>
-            <p class="lead fw-normal text-white-50 mb-0">View Your Cart...</p>
+            <h1 class="display-3 fw-bold mb-3">
+                <i class="bi bi-cart3 me-2"></i>Mi Carrito
+            </h1>
+            <p class="lead fw-normal mb-0">Revisa tus productos seleccionados</p>
         </div>
     </div>
 </header>
-<br/>
 
-<div class="container">
-    {% if cart_products %}
-    {% for product in cart_products %}
-
-    <div class="card mb-3">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body text-center">
+<section class="py-5">
+    <div class="container">
+        {% if cart_products %}
+        {% for product in cart_products %}
+        <div class="card mb-4 shadow-sm hover-card">
+            <div class="row g-0">
+                <div class="col-md-3">
+                    <img src="{{ product.image.url }}" class="img-fluid p-3" alt="{{ product.name }}" style="object-fit: contain; height: 250px;">
+                </div>
+                <div class="col-md-9">
+                    <div class="card-body p-4">
                     <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text">{{ product.description }}</p>
 
@@ -57,58 +58,55 @@
                         </div>
                     <br/><br/>
 
-                    <br/><br/>
-                                        
-                    <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
-                    <button type="button" data-index="{{ product.id }}" class="btn btn-secondary update-cart">
-                        Update
-                    </button>
-                    <button type="button" data-index="{{ product.id }}" class="btn btn-danger delete-product">
-                        Remove
-                    </button>
-
-                   
-
-                                        
-                   
-
+                        <br/>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-house me-1"></i>Continuar Comprando
+                            </a>
+                            <button type="button" data-index="{{ product.id }}" class="btn btn-primary update-cart">
+                                <i class="bi bi-arrow-repeat me-1"></i>Actualizar
+                            </button>
+                            <button type="button" data-index="{{ product.id }}" class="btn btn-danger delete-product">
+                                <i class="bi bi-trash me-1"></i>Eliminar
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+        {% endfor %}
         
-    {% endfor %}
-    <div align="right">
-        <h3>Total: ${{ totals }}</h3>
-        <a href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>
+        <!-- Resumen Total -->
+        <div class="card border-0 shadow-lg bg-success text-white">
+            <div class="card-body p-4">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h3 class="mb-0"><i class="bi bi-calculator me-2"></i>Total: ${{ totals }}</h3>
+                    </div>
+                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                        <a href="{% url 'checkout' %}" class="btn btn-light btn-lg">
+                            <i class="bi bi-credit-card me-2"></i>Proceder al Pago
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% else %}
+        <!-- Carrito Vacío -->
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="bi bi-cart-x" style="font-size: 100px; color: #ccc;"></i>
+            </div>
+            <h2 class="mb-3">Tu carrito está vacío</h2>
+            <p class="text-muted mb-4">¡Explora nuestro catálogo y encuentra tu próxima lectura!</p>
+            <a href="{% url 'home' %}" class="btn btn-primary btn-lg">
+                <i class="bi bi-shop me-2"></i>Ir a la Tienda
+            </a>
+        </div>
+        {% endif %}
     </div>
-    <br/><br/>
-
-    {% else %}
-    NO HAY NADA EN TU CARRITO  
-    <br>    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-
-    {%endif%}
-</div>
-
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</section>
 
 
 

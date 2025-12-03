@@ -2,32 +2,64 @@
 {% block content %}
 
 <!-- Header -->
-<header class="bg-dark py-5">
+<header class="bg-secondary bg-gradient py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Categorias</h1>
-            <p class="lead fw-normal text-white-50 mb-0">
-                Elige aqui debajo tu categoria
+            <h1 class="display-3 fw-bold mb-3">📑 Categorías</h1>
+            <p class="lead fw-normal mb-0">
+                Explora nuestras categorías literarias
             </p>
         </div>
     </div>
 </header>
 
 
-<div class="container">
-    <div class="row">
-        <center>
-            <div class="col-8">
-                <br /><br />
-                {% for category in categories %}
-                    <h3>
-                        <a href="{% url 'category' category %}">{{ category }}</a>
-                    </h3>
-                {% endfor %}
-                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="row g-4">
+                    {% for category in categories %}
+                        <div class="col-md-6">
+                            <a href="{% url 'category' category %}" class="text-decoration-none">
+                                <div class="card h-100 shadow-sm border-0 hover-card">
+                                    <div class="card-body text-center p-4">
+                                        <div class="mb-3">
+                                            <span class="display-4">
+                                                {% if category.name == 'Filosofia' %}
+                                                    🧠
+                                                {% elif category.name == 'Narrativa' %}
+                                                    📖
+                                                {% elif category.name == 'Poesía' %}
+                                                    ✍️
+                                                {% elif category.name == 'Teatro' %}
+                                                    🎭
+                                                {% else %}
+                                                    📚
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <h3 class="card-title fw-bold text-dark mb-2">{{ category }}</h3>
+                                        <p class="text-muted mb-0">Ver todos los libros</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-        </center>
+        </div>
     </div>
-</div>
+</section>
+
+<style>
+.hover-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+</style>
 
 {% endblock %}

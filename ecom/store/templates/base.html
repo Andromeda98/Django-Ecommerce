@@ -19,12 +19,23 @@
     <!-- Theme CSS -->
     <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     
+    <!-- Custom Hover Effects -->
+    <style>
+        .hover-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        }
+    </style>
+    
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 
     <!-- Navigation -->
     
@@ -39,18 +50,103 @@
             {% endfor %}
         {% endif %}
 
+    <main class="flex-grow-1">
     {% block content %}
     {% endblock %}
+    </main>
 
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
+    <footer class="bg-dark text-white pt-5 pb-4">
         <div class="container">
-            <p class="m-0 text-center text-white">
-                Copyright &copy; Your Website 2023
-            </p>
+            <div class="row">
+                <!-- Sobre Nosotros -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5 class="text-uppercase mb-3">
+                        <i class="bi bi-book-fill me-2"></i>Librería Rodrigo
+                    </h5>
+                    <p class="text-white-50">
+                        Tu librería online de confianza. Descubre los mejores libros de filosofía, narrativa, poesía y teatro.
+                    </p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-5"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter fs-5"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-5"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-envelope fs-5"></i></a>
+                    </div>
+                </div>
+
+                <!-- Enlaces Rápidos -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="text-uppercase mb-3">Enlaces</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'home' %}" class="text-white-50 text-decoration-none">Inicio</a></li>
+                        <li><a href="{% url 'search' %}" class="text-white-50 text-decoration-none">Buscar</a></li>
+                        <li><a href="{% url 'category_summary' %}" class="text-white-50 text-decoration-none">Categorías</a></li>
+                        <li><a href="{% url 'about' %}" class="text-white-50 text-decoration-none">Acerca de</a></li>
+                    </ul>
+                </div>
+
+                <!-- Categorías -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="text-uppercase mb-3">Categorías</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'category' 'Filosofia' %}" class="text-white-50 text-decoration-none">🧠 Filosofía</a></li>
+                        <li><a href="{% url 'category' 'Narrativa' %}" class="text-white-50 text-decoration-none">📖 Narrativa</a></li>
+                        <li><a href="{% url 'category' 'Poesía' %}" class="text-white-50 text-decoration-none">✍️ Poesía</a></li>
+                        <li><a href="{% url 'category' 'Teatro' %}" class="text-white-50 text-decoration-none">🎭 Teatro</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contacto -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="text-uppercase mb-3">Contacto</h5>
+                    <ul class="list-unstyled text-white-50">
+                        <li><i class="bi bi-geo-alt me-2"></i>Madrid, España</li>
+                        <li><i class="bi bi-telephone me-2"></i>+34 123 456 789</li>
+                        <li><i class="bi bi-envelope me-2"></i>info@libreriarodrigo.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="bg-secondary my-4">
+
+            <!-- Copyright -->
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p class="mb-0 text-white-50">
+                        &copy; 2025 Librería Rodrigo. Todos los derechos reservados.
+                    </p>
+                </div>
+            </div>
         </div>
     </footer>
+
+    <!-- Botón Volver Arriba -->
+    <button id="backToTop" class="btn btn-primary btn-lg position-fixed bottom-0 end-0 m-4 shadow" 
+            style="display: none; z-index: 999; border-radius: 50%; width: 60px; height: 60px;">
+        <i class="bi bi-arrow-up-circle-fill fs-4"></i>
+    </button>
+
+    <script>
+        // Mostrar/ocultar botón de volver arriba
+        window.addEventListener('scroll', function() {
+            const backToTop = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        // Scroll suave hacia arriba
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

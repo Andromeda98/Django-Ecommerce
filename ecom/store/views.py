@@ -1,6 +1,6 @@
 
 from django.shortcuts import render, redirect
-from .models import Product, Category, Profile
+from .models import Book, Category, Profile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -21,15 +21,15 @@ def search(request):
     if request.method == "POST":
         searched = request.POST['searched']
         
-        # Query the Products DB Model
-        products = Product.objects.filter(Q(name__icontains=searched)|Q(description__icontains = searched))
+        # Query the Books DB Model
+        products = Book.objects.filter(Q(name__icontains=searched)|Q(description__icontains = searched))
         
         # Test for null
         if not products.exists():
             messages.success(request, "That Product Does Not Exist")
             return render(request, 'search.html', {})
         else:
-            return render(request, 'search.html', {'searched': searched})
+            return render(request, 'search.html', {'searched': searched, 'products': products})
     else:
         return render(request, 'search.html', {})
 
@@ -37,10 +37,10 @@ def search(request):
 def update_info(request):
     if request.user.is_authenticated:
         #Get Current User
-        current_user = Profile.objects.get(user__id=request.user.id)
+        current_user, created = Profile.objects.get_or_create(user=request.user)
         #Get Current shipping User info
 
-        shipping_user = ShippingAddress.objects.get(user__id=request.user.id)
+        shipping_user, created = ShippingAddress.objects.get_or_create(user=request.user)
         form = UserInfoForm(request.POST or None, instance=current_user)
         shipping_form = ShippingForm(request.POST or None, instance=shipping_user)
 
@@ -62,15 +62,15 @@ def category_summary(request):
     return render(request, 'category_summary.html', {"categories": categories })
 
 
-def category(request, foo):
+def category(request, category_name):
     # Replace Hyphens with Spaces
-    foo = foo.replace('-', ' ')
+    category_name = category_name.replace('-', ' ')
     
     # Grab the category from the URL
     try:
         # Look Up The Category
-        category = Category.objects.get(name=foo)
-        products = Product.objects.filter(category=category)
+        category = Category.objects.get(name=category_name)
+        products = Book.objects.filter(category=category)
         return render(request, 'category.html', {'products': products, 'category': category})
     except Category.DoesNotExist:
         messages.success(request, "That Category Doesn't Exist")
@@ -83,10 +83,11 @@ def update_password(request):
         current_user = request.user
         # Did they fill out the form
         if request.method == 'POST':
-            form = ChangePasswordForm(current_user, request.POST)
+            form = ChangePasswordForm(request.POST)
             # Is the form valid
             if form.is_valid():
-                form.save()
+                current_user.set_password(form.cleaned_data['password1'])
+                current_user.save()
                 messages.success(request, "Your Password Has Been Updated!")
                 login(request, current_user)
                 return redirect('update_user')
@@ -95,7 +96,7 @@ def update_password(request):
                     messages.error(request, error)
                 return redirect('update_password')
         else:
-            form = ChangePasswordForm(current_user)
+            form = ChangePasswordForm()
             return render(request, 'update_password.html', {'form': form})
     else:
         messages.success(request, "You Must Be Logged In To Update Your Password")
@@ -119,12 +120,12 @@ def update_user(request):
 
 
 
-def product(request, pk):
-    product = Product.objects.get(id=pk)
+def product(request, product_id):
+    product = Book.objects.get(id=product_id)
     return render(request, 'product.html', {'product': product})
 
 def home(request):
-    products = Product.objects.all()
+    products = Book.objects.all()
     return render(request, 'home.html', {'products': products})
 
 def about(request):

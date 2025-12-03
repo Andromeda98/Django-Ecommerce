@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header con Gradiente -->
+<header class="bg-primary bg-gradient text-white py-4 mb-4">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="mb-0">
+                <i class="bi bi-receipt-cutoff me-2"></i>Detalle del Pedido #{{ order.id }}
+            </h2>
+        </div>
+    </div>
+</header>
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            
+            <!-- Card Principal del Pedido -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="bi bi-box-seam me-2"></i>Pedido #{{ order.id }}
+                        </h5>
+                        <h5 class="mb-0">${{ order.amount_paid }}</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-2">
+                                <i class="bi bi-person-circle me-2"></i>Cliente
+                            </h6>
+                            <p class="mb-0 fw-bold">{{ order.full_name }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-2">
+                                <i class="bi bi-envelope me-2"></i>Email
+                            </h6>
+                            <p class="mb-0"><a href="mailto:{{ order.email }}" class="text-decoration-none">{{ order.email }}</a></p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-2">
+                                <i class="bi bi-calendar-check me-2"></i>Fecha
+                            </h6>
+                            <p class="mb-0">
+                                {% if order.date_shipped %}
+                                    <strong>Enviado:</strong> {{ order.date_shipped }}
+                                {% else %}
+                                    <strong>Ordenado:</strong> {{ order.date_ordered }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted mb-2">
+                                <i class="bi bi-truck me-2"></i>Estado
+                            </h6>
+                            {% if order.shipped %}
+                                <span class="badge bg-success fs-6">
+                                    <i class="bi bi-check-circle me-1"></i>Enviado
+                                </span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark fs-6">
+                                    <i class="bi bi-clock me-1"></i>Pendiente de envío
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <hr class="my-3">
+
+                    <h6 class="text-muted mb-3">
+                        <i class="bi bi-geo-alt me-2"></i>Dirección de Envío
+                    </h6>
+                    <div class="bg-light p-3 rounded">
+                        <pre class="mb-0" style="white-space: pre-wrap; font-family: inherit;">{{ order.shipping_address }}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de Productos -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-bag-check me-2"></i>Productos
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Producto</th>
+                                    <th class="text-center">Cantidad</th>
+                                    <th class="text-end">Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr>
+                                    <td><strong>{{ item.product }}</strong></td>
+                                    <td class="text-center">
+                                        <span class="badge bg-secondary">{{ item.quantity }}</span>
+                                    </td>
+                                    <td class="text-end">${{ item.price }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot class="table-light">
+                                <tr>
+                                    <td colspan="2" class="text-end fw-bold">Total:</td>
+                                    <td class="text-end">
+                                        <h5 class="mb-0 text-success">${{ order.amount_paid }}</h5>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de Acciones -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="mb-3">
+                        <i class="bi bi-pencil-square me-2"></i>Actualizar Estado del Envío
+                    </h5>
+                    {% if not order.shipped %}
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="shipping_status" value="true">
+                            <button type="submit" class="btn btn-success btn-lg w-100">
+                                <i class="bi bi-truck me-2"></i>Marcar como Enviado
+                            </button>
+                        </form>
+                    {% else %}
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="shipping_status" value="false">
+                            <button type="submit" class="btn btn-danger btn-lg w-100">
+                                <i class="bi bi-x-circle me-2"></i>Marcar como No Enviado
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Botones de Navegación -->
+            <div class="text-center mb-4">
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary me-2">
+                    <i class="bi bi-house me-1"></i>Volver al Inicio
+                </a>
+                {% if order.shipped %}
+                <a href="{% url 'shipped_dash' %}" class="btn btn-outline-success">
+                    <i class="bi bi-list me-1"></i>Ver Pedidos Enviados
+                </a>
+                {% else %}
+                <a href="{% url 'not_shipped_dash' %}" class="btn btn-outline-warning">
+                    <i class="bi bi-list me-1"></i>Ver Pedidos Pendientes
+                </a>
+                {% endif %}
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}

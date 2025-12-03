@@ -1,13 +1,11 @@
 
 from django.contrib import admin
 from django.contrib.auth.models import User
-from .models import Category, Customer, Product, Order, Profile
+from .models import Category, Book, Profile
 
 # Registrar modelos en el admin
 admin.site.register(Category)
-admin.site.register(Customer)
-admin.site.register(Product)
-admin.site.register(Order)
+admin.site.register(Book)
 admin.site.register(Profile)
 
 # Mezclar la información del perfil con la del usuario

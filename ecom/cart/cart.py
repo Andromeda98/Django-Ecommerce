@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from store.models import Product, Profile
+from store.models import Book, Profile
 
 
 class Cart():
@@ -69,11 +69,11 @@ class Cart():
             current_user = Profile.objects.filter(user_id=self.request.user.id)
 
             # Convert cart dictionary to string
-            carty = str(self.cart)  # Example: {'3': 1, '2': 4}
-            carty = carty.replace("'", '"')  # Convert to {"3": 1, "2": 4}
+            cart_string = str(self.cart)
+            cart_string = cart_string.replace("'", '"')
 
-            # Save carty to the Profile model
-            current_user.update(old_cart=str(carty))
+            # Save cart_string to the Profile model
+            current_user.update(old_cart=str(cart_string))
 
 
 
@@ -84,7 +84,7 @@ class Cart():
         product_ids = self.cart.keys()
 
         # Buscar esos productos en la base de datos
-        products = Product.objects.filter(id__in=product_ids)
+        products = Book.objects.filter(id__in=product_ids)
 
         # Obtener las cantidades del carrito
         quantities = self.cart
@@ -116,7 +116,7 @@ class Cart():
         product_ids = self.cart.keys()
         
         # Use ids to lookup products in database model
-        products = Product.objects.filter(id__in=product_ids)
+        products = Book.objects.filter(id__in=product_ids)
         
         # Return those looked up products
         return products
@@ -132,10 +132,10 @@ class Cart():
         product_qty = int(quantity)
 
         # Obtener el carrito actual
-        ourcart = self.cart
+        updated_cart = self.cart
 
         # Actualizar el diccionario del carrito
-        ourcart[product_id] = product_qty
+        updated_cart[product_id] = product_qty
 
         # Marcar la sesión como modificada
         self.session.modified = True
@@ -146,11 +146,11 @@ class Cart():
             current_user = Profile.objects.filter(user_id=self.request.user.id)
 
             # Convertir el carrito a string y reemplazar comillas simples por dobles
-            carty = str(self.cart)  # Ejemplo: {'3': 1, '2': 4}
-            carty = carty.replace("'", '"')  # Convertir a {"3": 1, "2": 4}
+            cart_string = str(self.cart)
+            cart_string = cart_string.replace("'", '"')
 
             # Guardar el carrito en el campo old_cart del perfil
-            current_user.update(old_cart=str(carty))
+            current_user.update(old_cart=str(cart_string))
 
 
         # Devolver el carrito actualizado
